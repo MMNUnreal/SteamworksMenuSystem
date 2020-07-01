@@ -8,11 +8,13 @@
 #include "Engine/Engine.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
+#include "OnlineSubsystem.h"
 
 #include "MenuSystem/MainMenu.h"
 #include "MenuSystem/InGameMenu.h"
 
 #include "MenuSystem/MenuWidget.h"
+
 
 #include "PlatformTrigger.h"
 
@@ -31,7 +33,15 @@ UPuzzlePlatformGameInstance::UPuzzlePlatformGameInstance(const FObjectInitialize
 
 void UPuzzlePlatformGameInstance::Init()
 {
-	
+	IOnlineSubsystem* SubSystem = IOnlineSubsystem::Get();
+	if(SubSystem != nullptr) 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Subsystem: %s"), *SubSystem->GetSubsystemName().ToString());
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Subsystem NULL"));
+	}
 }
 
 //** Host server **//

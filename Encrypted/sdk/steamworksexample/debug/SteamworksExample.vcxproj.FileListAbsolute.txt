@@ -1,0 +1,2 @@
+D:\Unreal_Engine\UE_4.25_Projects\Multi\Encrypted\sdk\steamworksexample\Debug\SteamworksExample.exe
+D:\Unreal_Engine\UE_4.25_Projects\Multi\Encrypted\sdk\steamworksexample\Debug\SteamworksExample.pdb
