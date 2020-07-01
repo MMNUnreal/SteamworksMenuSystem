@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "MenuSystem/MenuInterface.h"
+#include "OnlineSubsystem.h"
+
 #include "PuzzlePlatformGameInstance.generated.h"
 
 /**
@@ -21,13 +23,28 @@ private:
 	//** Initialise **//
 	virtual void Init();
 
-	UFUNCTION(Exec)
-	//** Join Server on IP Address **//
-	virtual void Join(const FString& Address) override;
+	//- - - - SESSION - - - - //
 
 	//** Host the session **//
 	UFUNCTION(Exec)
 	virtual void Host() override;
+
+	//** Join Server on IP Address **//
+	UFUNCTION(Exec)
+	virtual void Join(const FString& Address) override;
+
+	//** Create an online session **//
+	void CreateSession();
+
+	//** Fired when session created **//
+	void OnCreateSessionComplete(FName SessionName, bool bSuccess);
+
+	//** Fired when session destroyed **//
+	void OnDestroySessionComplete(FName SessionName, bool bSuccess);
+
+	IOnlineSessionPtr SessionInterface;
+
+	// - - - - - WIDGET MENUS - - - - - - //
 
 	//** Load the Main Menu **//
 	UFUNCTION(BlueprintCallable, Category = "Menu")
