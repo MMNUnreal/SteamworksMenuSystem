@@ -42,7 +42,11 @@ private:
 	//** Fired when session destroyed **//
 	void OnDestroySessionComplete(FName SessionName, bool bSuccess);
 
+	//** Fired when find session is comleted **//
+	void OnFindSessionComplete(bool bSuccess);
+
 	IOnlineSessionPtr SessionInterface;
+	TSharedPtr<class FOnlineSessionSearch> SessionSearch;
 
 	// - - - - - WIDGET MENUS - - - - - - //
 
