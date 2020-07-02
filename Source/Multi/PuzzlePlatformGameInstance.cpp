@@ -44,10 +44,7 @@ void UPuzzlePlatformGameInstance::Init()
 			SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformGameInstance::OnCreateSessionComplete);
 			SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformGameInstance::OnDestroySessionComplete);
 			SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(this, &UPuzzlePlatformGameInstance::OnFindSessionComplete);
-		
-
 		}
-
 	}
 	else
 	{
@@ -98,7 +95,6 @@ void UPuzzlePlatformGameInstance::Host()
 		{
 			CreateSession();
 		}
-
 	}	
 }
 
@@ -154,7 +150,6 @@ void UPuzzlePlatformGameInstance::OnDestroySessionComplete(FName SessionName, bo
 		CreateSession();
 	}
 }
-
 
 //** Join server **//
 void UPuzzlePlatformGameInstance::Join(const FString& Address)

@@ -23,6 +23,9 @@ public:
 	UFUNCTION()
 	void PopulateServerList(TArray<FString> ServerNames);
 
+	//** Set the server row that is being pressed **//
+	void SelectIndex(uint32 Index);
+
 protected:
 	//** Set up bindings on widgets **//
 	virtual bool Initialize() override;
@@ -83,5 +86,8 @@ private:
 	class UPanelWidget* ServerList;
 
 	TSubclassOf<UUserWidget> ServerRowClass;
+
+	//** Selected server **//
+	TOptional<uint32> SelectedIndex;
 
 };
