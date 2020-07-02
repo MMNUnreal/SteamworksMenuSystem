@@ -102,18 +102,21 @@ void UPuzzlePlatformGameInstance::OnCreateSessionComplete(FName SessionName, boo
 		UE_LOG(LogTemp, Warning, TEXT("Failed to complete session creation"));
 		return;
 	}
-
-	if (Menu != nullptr)
+	else
 	{
-		Menu->Teardown();
+		if (Menu != nullptr)
+		{
+			Menu->Teardown();
+		}
+
+		DebugMessage(TEXT("Hosting"));
+
+		UWorld* World = GetWorld();
+		if (!ensure(World != nullptr)) return;
+
+		World->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap?listen");
 	}
-
-	DebugMessage(TEXT("Hosting"));
-
-	UWorld* World = GetWorld();
-	if (!ensure(World != nullptr)) return;
-
-	World->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap?listen");
+	
 }
 
 //** Destroy session - once completed create a new session **//
@@ -139,6 +142,7 @@ void UPuzzlePlatformGameInstance::OnFindSessionComplete(bool bSuccess)
 		for (const FOnlineSessionSearchResult& SearchResult : SessionSearch->SearchResults)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("Found session: %s"), *SearchResult.GetSessionIdStr());
+			Menu->PopulateServerList(SearchResult.GetSessionIdStr());
 		}
 	}
 }

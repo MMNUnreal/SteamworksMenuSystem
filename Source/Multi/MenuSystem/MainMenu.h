@@ -16,6 +16,11 @@ class MULTI_API UMainMenu : public UMenuWidget
 	GENERATED_BODY()
 
 public:
+	UMainMenu(const FObjectInitializer& ObjectInitializer);
+
+	//**Populate Server **//
+	UFUNCTION()
+	void PopulateServerList(const FString& SearchResult);
 
 protected:
 	virtual bool Initialize() override;
@@ -37,7 +42,6 @@ protected:
 
 	UFUNCTION()
 	void SwitchMenu(UWidgetSwitcher* WidgetSwitcher, UWidget* MenuToSwitchTo);
-
 
 private:
 
@@ -67,7 +71,17 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* JoinGameButton;
 
+	/*
 	UPROPERTY(meta = (BindWidget))
 	class UEditableTextBox* IPAddressField;
+	*/
+
+	UPROPERTY(meta = (BindWidget))
+	class UPanelWidget* ServerList;
+
+	//** Server Row **//
+	//class UServerRow* ServerRow;
+
+	TSubclassOf<UUserWidget> ServerRowClass;
 
 };
