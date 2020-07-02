@@ -16,6 +16,7 @@ class MULTI_API UMainMenu : public UMenuWidget
 	GENERATED_BODY()
 
 public:
+	//** Set up server row bp class **//
 	UMainMenu(const FObjectInitializer& ObjectInitializer);
 
 	//**Populate Server **//
@@ -23,23 +24,30 @@ public:
 	void PopulateServerList(TArray<FString> ServerNames);
 
 protected:
+	//** Set up bindings on widgets **//
 	virtual bool Initialize() override;
 
+	//** Host the game **//
 	UFUNCTION()
 	void HostServer();
 
+	//** Opens join server menu and refresh server list **//
 	UFUNCTION()
 	void OpenJoinMenu();
 
+	//** Opens main menu **//
 	UFUNCTION()
 	void OpenMainMenu();
 
+	//** Calls join server on interface **//
 	UFUNCTION()
 	void JoinServer();
 
+	//** Quits game **//
 	UFUNCTION()
 	void ExitApplication();
 
+	//** Switches between widgets in main menu widget **//
 	UFUNCTION()
 	void SwitchMenu(UWidgetSwitcher* WidgetSwitcher, UWidget* MenuToSwitchTo);
 
@@ -71,16 +79,8 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* JoinGameButton;
 
-	/*
-	UPROPERTY(meta = (BindWidget))
-	class UEditableTextBox* IPAddressField;
-	*/
-
 	UPROPERTY(meta = (BindWidget))
 	class UPanelWidget* ServerList;
-
-	//** Server Row **//
-	//class UServerRow* ServerRow;
 
 	TSubclassOf<UUserWidget> ServerRowClass;
 

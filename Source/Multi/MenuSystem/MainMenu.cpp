@@ -11,6 +11,7 @@
 #include "UObject/ConstructorHelpers.h"
 #include "GenericPlatform/GenericPlatformMisc.h"
 
+//** Set up server row bp class **//
 UMainMenu::UMainMenu(const FObjectInitializer& ObjectInitializer)
 {
 	ConstructorHelpers::FClassFinder<UUserWidget> ServerRowBPClass(TEXT("/Game/MenuSystem/WBP_ServerRow"));
@@ -19,6 +20,7 @@ UMainMenu::UMainMenu(const FObjectInitializer& ObjectInitializer)
 	ServerRowClass = ServerRowBPClass.Class;
 }
 
+//** Set up bindings on widgets **//
 bool UMainMenu::Initialize()
 {
 	bool Success = Super::Initialize();
@@ -42,6 +44,7 @@ bool UMainMenu::Initialize()
 	return true;
 }
 
+//** Host the game **//
 void UMainMenu::HostServer()
 {
 	if (MenuInterface != nullptr)
@@ -50,6 +53,7 @@ void UMainMenu::HostServer()
 	}
 }
 
+//** Opens join server menu and refresh server list **//
 void UMainMenu::OpenJoinMenu()
 {
 	SwitchMenu(MenuSwitcher, JoinMenu);
@@ -59,11 +63,13 @@ void UMainMenu::OpenJoinMenu()
 	}
 }
 
+//** Opens main menu **//
 void UMainMenu::OpenMainMenu()
 {
 	SwitchMenu(MenuSwitcher, MainMenu);
 }
 
+//** Switches between widgets in main menu widget **//
 void UMainMenu::SwitchMenu(UWidgetSwitcher* WidgetSwitcher, UWidget* MenuToSwitchTo)
 {
 	if (!ensure(WidgetSwitcher != nullptr)) return;
@@ -90,7 +96,7 @@ void UMainMenu::PopulateServerList(TArray<FString> ServerNames)
 	}
 }
 
-
+//** Calls join server on interface **//
 void UMainMenu::JoinServer()
 {
 	if (MenuInterface != nullptr)
@@ -101,6 +107,7 @@ void UMainMenu::JoinServer()
 	}
 }
 
+//** Quits the game **//
 void UMainMenu::ExitApplication()
 {
 	UWorld* World = GetWorld();
