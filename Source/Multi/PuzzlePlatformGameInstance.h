@@ -42,11 +42,15 @@ private:
 	//** Fired when session destroyed **//
 	void OnDestroySessionComplete(FName SessionName, bool bSuccess);
 
+	virtual void FindSessions() override;
+
 	//** Fired when find session is comleted **//
 	void OnFindSessionComplete(bool bSuccess);
 
+
 	IOnlineSessionPtr SessionInterface;
 	TSharedPtr<class FOnlineSessionSearch> SessionSearch;
+	//TArray<FString> ServerNames;
 
 	// - - - - - WIDGET MENUS - - - - - - //
 
@@ -75,5 +79,7 @@ private:
 
 	//** In game menu widget **//
 	class UMenuWidget* InGameMenu;
+
+
 	
 };

@@ -53,6 +53,10 @@ void UMainMenu::HostServer()
 void UMainMenu::OpenJoinMenu()
 {
 	SwitchMenu(MenuSwitcher, JoinMenu);
+	if(MenuInterface != nullptr)
+	{
+		MenuInterface->FindSessions();
+	}
 }
 
 void UMainMenu::OpenMainMenu()
@@ -68,17 +72,22 @@ void UMainMenu::SwitchMenu(UWidgetSwitcher* WidgetSwitcher, UWidget* MenuToSwitc
 }
 
 //**Populate Server **//
-void UMainMenu::PopulateServerList(const FString& SearchResult)
+void UMainMenu::PopulateServerList(TArray<FString> ServerNames)
 {
 	UWorld* World = this->GetWorld();
 	if (!ensure(World != nullptr)) return;
 
-	if (!ensure(ServerRowClass != nullptr)) return;
-	UServerRow* ServerRow = CreateWidget<UServerRow>(World, ServerRowClass);
+	ServerList->ClearChildren();
 
-	if (!ensure(ServerRow != nullptr)) return;
-	ServerList->AddChild(ServerRow);
-	ServerRow->SetServerName(SearchResult);
+	for (const FString& servername : ServerNames)
+	{
+		if (!ensure(ServerRowClass != nullptr)) return;
+		UServerRow* ServerRow = CreateWidget<UServerRow>(World, ServerRowClass);
+
+		if (!ensure(ServerRow != nullptr)) return;
+		ServerList->AddChild(ServerRow);
+		ServerRow->SetServerName(servername);
+	}
 }
 
 
@@ -86,11 +95,9 @@ void UMainMenu::JoinServer()
 {
 	if (MenuInterface != nullptr)
 	{
-		/*
-		if (!ensure(IPAddressField != nullptr)) return;
-		const FString& IPAddress = IPAddressField->GetText().ToString();
-		MenuInterface->Join(IPAddress);
-		*/
+		/*if (!ensure(IPAddressField != nullptr)) return;
+		const FString& IPAddress = IPAddressField->GetText().ToString();*/
+		MenuInterface->Join("");
 	}
 }
 

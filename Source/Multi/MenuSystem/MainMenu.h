@@ -20,7 +20,7 @@ public:
 
 	//**Populate Server **//
 	UFUNCTION()
-	void PopulateServerList(const FString& SearchResult);
+	void PopulateServerList(TArray<FString> ServerNames);
 
 protected:
 	virtual bool Initialize() override;
