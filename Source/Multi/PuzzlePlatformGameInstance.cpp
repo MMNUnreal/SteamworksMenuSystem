@@ -18,6 +18,8 @@
 
 const static FName SESSION_NAME = TEXT("SessionGame");
 const static FName SETTING_GAMENAME = TEXT("SETTING_GAMENAME");
+const static FString LOBBY_MAP = "/Game/Maps/L_Lobby?listen";
+const static FString MAINMENU_MAP = "/Game/Maps/L_MainMenu";
 
 UPuzzlePlatformGameInstance::UPuzzlePlatformGameInstance(const FObjectInitializer& ObjectInitializer)
 {
@@ -171,7 +173,7 @@ void UPuzzlePlatformGameInstance::OnCreateSessionComplete(FName SessionName, boo
 		UWorld* World = GetWorld();
 		if (!ensure(World != nullptr)) return;
 
-		World->ServerTravel("/Game/ThirdPersonCPP/Maps/ThirdPersonExampleMap?listen");
+		World->ServerTravel(LOBBY_MAP);
 	}
 	
 }
@@ -266,7 +268,7 @@ void UPuzzlePlatformGameInstance::LoadMainMenu()
 	APlayerController* PlayerController = GEngine->GetFirstLocalPlayerController(World);
 	if (!ensure(PlayerController != nullptr)) return;
 
-	PlayerController->ClientTravel("/Game/Maps/L_MainMenu", ETravelType::TRAVEL_Absolute);
+	PlayerController->ClientTravel(MAINMENU_MAP, ETravelType::TRAVEL_Absolute);
 }
 
 //** Debugging message to log to screen **//
