@@ -158,26 +158,14 @@ void UPuzzlePlatformGameInstance::Join(uint32 IndexIn)
 
 	if (Menu != nullptr)
 	{
-		//Menu->PopulateServerList({"Test1", "Test2"});
 		Menu->Teardown();
 
 	}
 
 	SessionInterface->JoinSession(0, SESSION_NAME, SessionSearch->SearchResults[IndexIn]);
-
-	/*
-	FString JoinMessage = "Joining: " + Address;
-	DebugMessage(JoinMessage);
-
-	UWorld* World = GetWorld();
-	if (!ensure(World != nullptr)) return;
-
-	APlayerController* PlayerController = GEngine->GetFirstLocalPlayerController(World);
-	if(!ensure(PlayerController != nullptr)) return;
-
-	PlayerController->ClientTravel(Address, ETravelType::TRAVEL_Absolute);*/
 }
 
+//** Do the client travel on successful connection **//
 void UPuzzlePlatformGameInstance::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
 {
 	if (!SessionInterface.IsValid()) return;

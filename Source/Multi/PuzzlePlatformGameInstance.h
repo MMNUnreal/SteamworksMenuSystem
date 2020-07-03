@@ -49,9 +49,8 @@ private:
 	//** Callback when find session is comleted **//
 	void OnFindSessionComplete(bool bSuccess);
 
-	//** Callback on successful join of session **//
+	//** Callback on successful join of session, do the client travel on successful connection **//
 	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
-
 
 	IOnlineSessionPtr SessionInterface;
 	TSharedPtr<class FOnlineSessionSearch> SessionSearch;
