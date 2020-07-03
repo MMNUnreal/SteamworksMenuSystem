@@ -61,7 +61,10 @@ void UPuzzlePlatformGameInstance::FindSessions()
 		//SessionSearch->bIsLanQuery = true;
 
 		//* For steam **//
+		// As not using private app ID, but shared app ID so need to have high search results
+		SessionSearch->MaxSearchResults = 100;
 		SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
+
 		UE_LOG(LogTemp, Warning, TEXT("Starting find sessions"));
 		SessionInterface->FindSessions(0, SessionSearch.ToSharedRef());
 	}
