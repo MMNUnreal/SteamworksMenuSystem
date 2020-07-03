@@ -6,6 +6,7 @@
 #include "Engine/GameInstance.h"
 #include "MenuSystem/MenuInterface.h"
 #include "OnlineSubsystem.h"
+#include "Interfaces/OnlineSessionInterface.h"
 
 #include "PuzzlePlatformGameInstance.generated.h"
 
@@ -31,26 +32,29 @@ private:
 
 	//** Join Server on IP Address **//
 	UFUNCTION(Exec)
-	virtual void Join(const FString& Address) override;
+	virtual void Join(uint32 IndexIn) override;
 
 	//** Create an online session **//
 	void CreateSession();
 
-	//** Fired when session created **//
+	//** Callback when session created **//
 	void OnCreateSessionComplete(FName SessionName, bool bSuccess);
 
-	//** Fired when session destroyed **//
+	//** Callback when session destroyed **//
 	void OnDestroySessionComplete(FName SessionName, bool bSuccess);
 
+	//** Find all current live sessions to populate server list **//
 	virtual void FindSessions() override;
 
-	//** Fired when find session is comleted **//
+	//** Callback when find session is comleted **//
 	void OnFindSessionComplete(bool bSuccess);
+
+	//** Callback on successful join of session **//
+	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 
 
 	IOnlineSessionPtr SessionInterface;
 	TSharedPtr<class FOnlineSessionSearch> SessionSearch;
-	//TArray<FString> ServerNames;
 
 	// - - - - - WIDGET MENUS - - - - - - //
 

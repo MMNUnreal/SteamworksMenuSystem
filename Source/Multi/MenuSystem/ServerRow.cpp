@@ -21,5 +21,5 @@ void UServerRow::Setup(UMainMenu* ParentIn, uint32 IndexIn)
 
 void UServerRow::OnRowClicked()
 {
-	
+	Parent->SelectIndex(Index);
 }

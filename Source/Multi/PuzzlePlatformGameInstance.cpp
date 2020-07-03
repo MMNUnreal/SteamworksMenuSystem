@@ -9,11 +9,9 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Blueprint/UserWidget.h"
 #include "OnlineSessionSettings.h"
-#include "Interfaces/OnlineSessionInterface.h"
 
 #include "MenuSystem/MainMenu.h"
 #include "MenuSystem/InGameMenu.h"
-
 #include "MenuSystem/MenuWidget.h"
 
 #include "PlatformTrigger.h"
@@ -44,6 +42,7 @@ void UPuzzlePlatformGameInstance::Init()
 			SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformGameInstance::OnCreateSessionComplete);
 			SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformGameInstance::OnDestroySessionComplete);
 			SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(this, &UPuzzlePlatformGameInstance::OnFindSessionComplete);
+			SessionInterface->OnJoinSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformGameInstance::OnJoinSessionComplete);
 		}
 	}
 	else
@@ -152,14 +151,19 @@ void UPuzzlePlatformGameInstance::OnDestroySessionComplete(FName SessionName, bo
 }
 
 //** Join server **//
-void UPuzzlePlatformGameInstance::Join(const FString& Address)
+void UPuzzlePlatformGameInstance::Join(uint32 IndexIn)
 {
-	
+	if (!SessionInterface.IsValid()) return;
+	if (!SessionSearch.IsValid()) return;
+
 	if (Menu != nullptr)
 	{
 		//Menu->PopulateServerList({"Test1", "Test2"});
-		//Menu->Teardown();
+		Menu->Teardown();
+
 	}
+
+	SessionInterface->JoinSession(0, SESSION_NAME, SessionSearch->SearchResults[IndexIn]);
 
 	/*
 	FString JoinMessage = "Joining: " + Address;
@@ -172,6 +176,37 @@ void UPuzzlePlatformGameInstance::Join(const FString& Address)
 	if(!ensure(PlayerController != nullptr)) return;
 
 	PlayerController->ClientTravel(Address, ETravelType::TRAVEL_Absolute);*/
+}
+
+void UPuzzlePlatformGameInstance::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
+{
+	if (!SessionInterface.IsValid()) return;
+
+	FString JoinMessage = "Joining: " + SessionName.ToString();
+	DebugMessage(JoinMessage);
+
+	FString ConnectionInfo;
+
+	bool bConnectSuccess = SessionInterface->GetResolvedConnectString(SessionName, ConnectionInfo);
+
+	if (bConnectSuccess)
+	{
+
+		UWorld* World = GetWorld();
+		if (!ensure(World != nullptr)) return;
+
+		APlayerController* PlayerController = GEngine->GetFirstLocalPlayerController(World);
+		if (!ensure(PlayerController != nullptr)) return;
+
+		PlayerController->ClientTravel(ConnectionInfo, ETravelType::TRAVEL_Absolute);
+	}
+
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Could not get ConnectString"));
+	}
+
+	
 }
 
 //** Add Menu Widget to viewport **//
