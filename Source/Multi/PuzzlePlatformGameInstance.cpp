@@ -143,7 +143,7 @@ void UPuzzlePlatformGameInstance::CreateSession()
 			SessionSettings.bIsLANMatch = false;
 		} 
 
-		SessionSettings.NumPublicConnections = 2;
+		SessionSettings.NumPublicConnections = 5;
 		SessionSettings.bShouldAdvertise = true;
 		SessionSettings.bUsesPresence = true;
 		SessionSettings.Set(SETTING_GAMENAME, DesiredServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
