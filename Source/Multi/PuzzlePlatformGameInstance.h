@@ -18,6 +18,11 @@ class MULTI_API UPuzzlePlatformGameInstance : public UGameInstance, public IMenu
 {
 	GENERATED_BODY()
 
+public:
+	// ** Start session called from LobbyGameMode, 
+	// remove current session from server list to stop others joining **//
+	void StartSession();
+
 private:
 	UPuzzlePlatformGameInstance(const FObjectInitializer& ObjectInitializer);
 
@@ -85,7 +90,4 @@ private:
 
 	//** In game menu widget **//
 	class UMenuWidget* InGameMenu;
-
-
-	
 };

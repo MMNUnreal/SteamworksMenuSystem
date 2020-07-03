@@ -3,6 +3,7 @@
 
 #include "LobbyGameMode.h"
 #include "TimerManager.h"
+#include "PuzzlePlatformGameInstance.h"
 
 const static FString MAIN_MAP = "/Game/Maps/L_GameMap";
 
@@ -16,7 +17,7 @@ void ALobbyGameMode::PostLogin(APlayerController* NewPlayer)
 	if(NumberOfPlayers >= ThresholdPlayers)
 	{
 		// ** Start timer **//
-		UE_LOG(LogTemp, Warning, TEXT("Reached 2 players, starting session in 4 seconds"), );
+		UE_LOG(LogTemp, Warning, TEXT("Reached 2 players, starting session in 4 seconds"));
 		UWorld* World = GetWorld();
 
 		if (!ensure(World != nullptr)) return;
@@ -26,12 +27,16 @@ void ALobbyGameMode::PostLogin(APlayerController* NewPlayer)
 
 void ALobbyGameMode::LoadMainGame()
 {
+	auto GameInstance = Cast<UPuzzlePlatformGameInstance>(GetGameInstance());
+
+	if(GameInstance == nullptr) return;
+	GameInstance->StartSession();
+
 	UWorld* World = GetWorld();
 	if (!ensure(World != nullptr)) return;
 
 	bUseSeamlessTravel = true;
 	World->ServerTravel(MAIN_MAP);
-
 }
 
 void ALobbyGameMode::Logout(AController* Exiting)

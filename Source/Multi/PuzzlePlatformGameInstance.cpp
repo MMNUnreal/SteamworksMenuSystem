@@ -237,6 +237,15 @@ void UPuzzlePlatformGameInstance::OnJoinSessionComplete(FName SessionName, EOnJo
 	}
 }
 
+// ** Start session, called from game mode **//
+void UPuzzlePlatformGameInstance::StartSession()
+{
+	if(SessionInterface.IsValid())
+	{
+		SessionInterface->StartSession(SESSION_NAME);
+	}
+}
+
 //** Add Menu Widget to viewport **//
 void UPuzzlePlatformGameInstance::LoadMenu()
 {

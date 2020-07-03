@@ -17,11 +17,13 @@ class MULTI_API ALobbyGameMode : public AMultiGameMode
 public:
 	//virtual void BeginPlay() override;
 
+	// ** End play, stop timer **//
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	//** Count player number, start timer when threshold reached **//
 	void PostLogin(APlayerController* NewPlayer) override;
 
+	// ** Player logout **//
 	void Logout(AController* Exiting) override;
 
 private:
