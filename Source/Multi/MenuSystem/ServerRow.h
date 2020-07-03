@@ -22,6 +22,9 @@ public:
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* ServerName;
 
+	UPROPERTY(BlueprintReadOnly)
+	bool Selected = false;
+
 	//** Calls select index on parent and tell what index row is **//
 	void Setup(class UMainMenu* ParentIn, uint32 IndexIn);
 

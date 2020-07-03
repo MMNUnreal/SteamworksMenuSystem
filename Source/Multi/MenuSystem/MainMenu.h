@@ -90,4 +90,7 @@ private:
 	//** Selected server **//
 	TOptional<uint32> SelectedIndex;
 
+	//** Set selected bool if child is currently selected **//
+	void UpdateChildren();
+
 };
