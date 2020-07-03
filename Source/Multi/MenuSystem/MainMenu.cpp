@@ -102,6 +102,7 @@ void UMainMenu::PopulateServerList(TArray<FServerData> ServerNames)
 		++i;
 
 		ServerList->AddChild(ServerRow);
+		UE_LOG(LogTemp, Warning, TEXT("Adding server: %s"), *ServerData.Name);
 	}
 }
 
