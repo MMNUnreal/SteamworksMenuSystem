@@ -9,14 +9,16 @@ void ALobbyGameMode::PostLogin(APlayerController* NewPlayer)
 {
 	Super::PostLogin(NewPlayer);
 
-	PlayerControllerList.Add(NewPlayer);
+	//PlayerControllerList.Add(NewPlayer);
 	++NumberOfPlayers;
 
-	if(PlayerControllerList.Num() >= 2)
+	if(NumberOfPlayers >= 2)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Reached 2 players"));
 		UWorld* World = GetWorld();
 		if (!ensure(World != nullptr)) return;
+
+		bUseSeamlessTravel = true;
 		World->ServerTravel(MAIN_MAP);
 	}
 }
@@ -24,5 +26,6 @@ void ALobbyGameMode::PostLogin(APlayerController* NewPlayer)
 void ALobbyGameMode::Logout(AController* Exiting)
 {
 	Super::Logout(Exiting);
+	//PlayerControllerList.Remove(Exiting);
 	--NumberOfPlayers;
 }

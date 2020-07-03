@@ -16,7 +16,7 @@
 
 #include "PlatformTrigger.h"
 
-const static FName SESSION_NAME = TEXT("SessionGame");
+const static FName SESSION_NAME = TEXT("Game");
 const static FName SETTING_GAMENAME = TEXT("SETTING_GAMENAME");
 const static FString LOBBY_MAP = "/Game/Maps/L_Lobby?listen";
 const static FString MAINMENU_MAP = "/Game/Maps/L_MainMenu";
@@ -24,11 +24,11 @@ const static FString MAINMENU_MAP = "/Game/Maps/L_MainMenu";
 UPuzzlePlatformGameInstance::UPuzzlePlatformGameInstance(const FObjectInitializer& ObjectInitializer)
 {
 	ConstructorHelpers::FClassFinder<UUserWidget> MenuClassBP(TEXT("/Game/MenuSystem/WBP_MainMenu"));
-	if (!ensure(MenuClassBP.Class != NULL)) return;
+	if (!ensure(MenuClassBP.Class != nullptr)) return;
 	MenuClass = MenuClassBP.Class;
 
 	ConstructorHelpers::FClassFinder<UUserWidget> InGameMenuClassBP(TEXT("/Game/MenuSystem/WBP_InGameMenu"));
-	if (!ensure(InGameMenuClassBP.Class != NULL)) return;
+	if (!ensure(InGameMenuClassBP.Class != nullptr)) return;
 	InGameMenuClass = InGameMenuClassBP.Class;
 }
 
