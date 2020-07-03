@@ -76,9 +76,6 @@ void UPuzzlePlatformGameInstance::OnFindSessionComplete(bool bSuccess)
 	if (bSuccess && SessionSearch.IsValid() && Menu != nullptr)
 	{
 		TArray<FString> ServerNames;
-		ServerNames.Add("Test One");
-		ServerNames.Add("Test Two");
-		ServerNames.Add("Test Three");
 		UE_LOG(LogTemp, Warning, TEXT("Finished find session"));
 		for (const FOnlineSessionSearchResult& SearchResult : SessionSearch->SearchResults)
 		{
@@ -113,7 +110,16 @@ void UPuzzlePlatformGameInstance::CreateSession()
 	if (SessionInterface.IsValid())
 	{
 		FOnlineSessionSettings SessionSettings;
-		SessionSettings.bIsLANMatch = false;
+		// If using NULL subsystem allow for LAN use, else false for steam
+		if(IOnlineSubsystem::Get()->GetSubsystemName() == "NULL")
+		{
+			SessionSettings.bIsLANMatch = true;
+		}
+		else
+		{
+			SessionSettings.bIsLANMatch = false;
+		} 
+
 		SessionSettings.NumPublicConnections = 2;
 		SessionSettings.bShouldAdvertise = true;
 		SessionSettings.bUsesPresence = true;
