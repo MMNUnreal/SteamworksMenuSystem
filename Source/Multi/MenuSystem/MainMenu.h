@@ -7,6 +7,16 @@
 #include "MenuWidget.h"
 #include "MainMenu.generated.h"
 
+USTRUCT()
+struct FServerData
+{
+	GENERATED_BODY();
+	FString Name;
+	FString HostUserName;
+	uint16 CurrentPlayers;
+	uint16 MaxPlayers;
+};
+
 /**
  * 
  */
@@ -21,7 +31,7 @@ public:
 
 	//**Populate Server **//
 	UFUNCTION()
-	void PopulateServerList(TArray<FString> ServerNames);
+	void PopulateServerList(TArray<FServerData> ServerNames);
 
 	//** Set the server row that is being pressed **//
 	void SelectIndex(uint32 Index);

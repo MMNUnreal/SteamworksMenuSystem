@@ -19,8 +19,20 @@ public:
 	UFUNCTION()
 	void SetServerName(const FString& ServerNameIn);
 
+	UFUNCTION()
+	void SetHostUserName(const FString& HostNameIn);
+
+	UFUNCTION()
+	void SetNumberPlayers(const FString& NumberPlayersIn);
+
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* ServerName;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* HostUserName;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* NumberPlayers;
 
 	UPROPERTY(BlueprintReadOnly)
 	bool Selected = false;

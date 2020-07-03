@@ -77,8 +77,8 @@ void UMainMenu::SwitchMenu(UWidgetSwitcher* WidgetSwitcher, UWidget* MenuToSwitc
 	WidgetSwitcher->SetActiveWidget(MenuToSwitchTo);
 }
 
-//**Populate Server **//
-void UMainMenu::PopulateServerList(TArray<FString> ServerNames)
+//** Populate Server **//
+void UMainMenu::PopulateServerList(TArray<FServerData> ServerNames)
 {
 	UWorld* World = this->GetWorld();
 	if (!ensure(World != nullptr)) return;
@@ -86,14 +86,18 @@ void UMainMenu::PopulateServerList(TArray<FString> ServerNames)
 	ServerList->ClearChildren();
 
 	uint32 i =0;
-	for (const FString& servername : ServerNames)
+	for (const FServerData& ServerData : ServerNames)
 	{
 		if (!ensure(ServerRowClass != nullptr)) return;
 		UServerRow* ServerRow = CreateWidget<UServerRow>(World, ServerRowClass);
 		
 
 		if (!ensure(ServerRow != nullptr)) return;
-		ServerRow->SetServerName(servername);
+		ServerRow->SetServerName(ServerData.Name);
+		ServerRow->SetHostUserName(ServerData.HostUserName);
+		FString PlayerFractionText = FString::Printf(TEXT("%d/%d"), ServerData.CurrentPlayers, ServerData.MaxPlayers);
+		ServerRow->SetNumberPlayers(PlayerFractionText);
+
 		ServerRow->Setup(this, i);
 		++i;
 
