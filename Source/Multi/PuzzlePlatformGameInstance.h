@@ -26,9 +26,12 @@ private:
 
 	//- - - - SESSION - - - - //
 
+	//** Server name **//
+	FString DesiredServerName;
+
 	//** Host the session **//
 	UFUNCTION(Exec)
-	virtual void Host() override;
+	virtual void Host(FString ServerNameIn) override;
 
 	//** Join Server on IP Address **//
 	UFUNCTION(Exec)

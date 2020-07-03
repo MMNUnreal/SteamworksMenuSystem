@@ -52,6 +52,14 @@ protected:
 	UFUNCTION()
 	void OpenMainMenu();
 
+	//** Opens host menu **//
+	UFUNCTION()
+	void OpenHostMenu();
+
+	//** Cancels host menu **//
+	UFUNCTION()
+	void CancelHostMenu();
+
 	//** Calls join server on interface **//
 	UFUNCTION()
 	void JoinServer();
@@ -102,5 +110,18 @@ private:
 
 	//** Set selected bool if child is currently selected **//
 	void UpdateChildren();
+
+	//** HOST MENU **//
+	UPROPERTY(meta = (BindWidget))
+	class UWidget* HostMenu;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* ConfirmHostButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* CancelButton;
+
+	UPROPERTY(meta = (BindWidget))
+	class UEditableTextBox* ServerNameText;
 
 };

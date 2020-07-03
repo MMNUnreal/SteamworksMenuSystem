@@ -27,7 +27,7 @@ bool UMainMenu::Initialize()
 	if (!Success) return false;
 
 	if (!ensure(HostButton != nullptr)) return false;
-	HostButton->OnClicked.AddDynamic(this, &UMainMenu::HostServer);
+	HostButton->OnClicked.AddDynamic(this, &UMainMenu::OpenHostMenu);
 
 	if (!ensure(JoinButton != nullptr)) return false;
 	JoinButton->OnClicked.AddDynamic(this, &UMainMenu::OpenJoinMenu);
@@ -41,6 +41,12 @@ bool UMainMenu::Initialize()
 	if (!ensure(ExitApplicationButton != nullptr)) return false;
 	ExitApplicationButton->OnClicked.AddDynamic(this, &UMainMenu::ExitApplication);
 
+	if (!ensure(ConfirmHostButton != nullptr)) return false;
+	ConfirmHostButton->OnClicked.AddDynamic(this, &UMainMenu::HostServer);
+
+	if (!ensure(CancelButton != nullptr)) return false;
+	CancelButton->OnClicked.AddDynamic(this, &UMainMenu::CancelHostMenu);
+	
 	return true;
 }
 
@@ -49,7 +55,7 @@ void UMainMenu::HostServer()
 {
 	if (MenuInterface != nullptr)
 	{
-		MenuInterface->Host();
+		MenuInterface->Host("Server One");
 	}
 }
 
@@ -61,6 +67,18 @@ void UMainMenu::OpenJoinMenu()
 	{
 		MenuInterface->FindSessions();
 	}
+}
+
+//** Opens join server menu and refresh server list **//
+void UMainMenu::OpenHostMenu()
+{
+	SwitchMenu(MenuSwitcher, HostMenu);
+}
+
+//** Opens join server menu and refresh server list **//
+void UMainMenu::CancelHostMenu()
+{
+	SwitchMenu(MenuSwitcher, MainMenu);
 }
 
 //** Opens main menu **//

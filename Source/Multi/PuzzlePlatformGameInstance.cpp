@@ -17,6 +17,7 @@
 #include "PlatformTrigger.h"
 
 const static FName SESSION_NAME = TEXT("SessionGame");
+const static FName SETTING_GAMENAME = TEXT("SETTING_GAMENAME");
 
 UPuzzlePlatformGameInstance::UPuzzlePlatformGameInstance(const FObjectInitializer& ObjectInitializer)
 {
@@ -82,10 +83,21 @@ void UPuzzlePlatformGameInstance::OnFindSessionComplete(bool bSuccess)
 			UE_LOG(LogTemp, Warning, TEXT("Found session: %s"), *SearchResult.GetSessionIdStr());
 			
 			FServerData Data;
-			Data.Name = SearchResult.GetSessionIdStr();
+
 			Data.HostUserName = SearchResult.Session.OwningUserName;
 			Data.MaxPlayers = SearchResult.Session.SessionSettings.NumPublicConnections;
 			Data.CurrentPlayers = Data.MaxPlayers - SearchResult.Session.NumOpenPublicConnections;
+			FString ServerName;
+			if (SearchResult.Session.SessionSettings.Get(SETTING_GAMENAME, ServerName))
+			{
+				//UE_LOG(LogTemp, Warning, TEXT("Data found in settings: %s"), *ServerName);
+				Data.Name = ServerName;
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("No data found in settings"));
+				Data.Name = "Could not find name";
+			}
 
 			ServerNames.Add(Data);
 		}
@@ -95,8 +107,10 @@ void UPuzzlePlatformGameInstance::OnFindSessionComplete(bool bSuccess)
 }
 
 //** Host server **//
-void UPuzzlePlatformGameInstance::Host()
+void UPuzzlePlatformGameInstance::Host(FString ServerNameIn)
 {
+	DesiredServerName = ServerNameIn;
+
 	if (SessionInterface.IsValid())
 	{
 		FNamedOnlineSession* ExistingSession = SessionInterface->GetNamedSession(SESSION_NAME);
@@ -130,6 +144,8 @@ void UPuzzlePlatformGameInstance::CreateSession()
 		SessionSettings.NumPublicConnections = 2;
 		SessionSettings.bShouldAdvertise = true;
 		SessionSettings.bUsesPresence = true;
+		SessionSettings.Set(SETTING_GAMENAME, DesiredServerName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
+
 
 		SessionInterface->CreateSession(0, SESSION_NAME, SessionSettings);
 	}
@@ -217,8 +233,6 @@ void UPuzzlePlatformGameInstance::OnJoinSessionComplete(FName SessionName, EOnJo
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Could not get ConnectString"));
 	}
-
-	
 }
 
 //** Add Menu Widget to viewport **//

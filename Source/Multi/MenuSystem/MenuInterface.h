@@ -23,7 +23,7 @@ class MULTI_API IMenuInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 
-	virtual void Host() = 0;
+	virtual void Host(FString ServerNameIn) = 0;
 	virtual void Join(uint32 IndexIn) = 0;
 	virtual void LoadMainMenu() = 0;
 	virtual void FindSessions() = 0;
