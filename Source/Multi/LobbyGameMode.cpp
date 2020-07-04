@@ -3,7 +3,7 @@
 
 #include "LobbyGameMode.h"
 #include "TimerManager.h"
-#include "PuzzlePlatformGameInstance.h"
+#include "MultiMenuGameInstance.h"
 
 const static FString MAIN_MAP = "/Game/Maps/L_GameMap";
 
@@ -27,7 +27,7 @@ void ALobbyGameMode::PostLogin(APlayerController* NewPlayer)
 
 void ALobbyGameMode::LoadMainGame()
 {
-	auto GameInstance = Cast<UPuzzlePlatformGameInstance>(GetGameInstance());
+	auto GameInstance = Cast<UMultiMenuGameInstance>(GetGameInstance());
 
 	if(GameInstance == nullptr) return;
 	GameInstance->StartSession();

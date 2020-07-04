@@ -8,13 +8,13 @@
 #include "OnlineSubsystem.h"
 #include "Interfaces/OnlineSessionInterface.h"
 
-#include "PuzzlePlatformGameInstance.generated.h"
+#include "MultiMenuGameInstance.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MULTI_API UPuzzlePlatformGameInstance : public UGameInstance, public IMenuInterface
+class MULTI_API UMultiMenuGameInstance : public UGameInstance, public IMenuInterface
 {
 	GENERATED_BODY()
 
@@ -24,7 +24,7 @@ public:
 	void StartSession();
 
 private:
-	UPuzzlePlatformGameInstance(const FObjectInitializer& ObjectInitializer);
+	UMultiMenuGameInstance(const FObjectInitializer& ObjectInitializer);
 
 	//** Initialise **//
 	virtual void Init();

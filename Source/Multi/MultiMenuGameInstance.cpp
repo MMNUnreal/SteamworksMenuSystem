@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PuzzlePlatformGameInstance.h"
+#include "MultiMenuGameInstance.h"
 
 #include "GameFramework/PlayerController.h"
 #include "Engine/World.h"
@@ -21,7 +21,7 @@ const static FName SETTING_GAMENAME = TEXT("SETTING_GAMENAME");
 const static FString LOBBY_MAP = "/Game/Maps/L_Lobby?listen";
 const static FString MAINMENU_MAP = "/Game/Maps/L_MainMenu";
 
-UPuzzlePlatformGameInstance::UPuzzlePlatformGameInstance(const FObjectInitializer& ObjectInitializer)
+UMultiMenuGameInstance::UMultiMenuGameInstance(const FObjectInitializer& ObjectInitializer)
 {
 	ConstructorHelpers::FClassFinder<UUserWidget> MenuClassBP(TEXT("/Game/MenuSystem/WBP_MainMenu"));
 	if (!ensure(MenuClassBP.Class != nullptr)) return;
@@ -33,7 +33,7 @@ UPuzzlePlatformGameInstance::UPuzzlePlatformGameInstance(const FObjectInitialize
 }
 
 //** Set up online subsystem **//
-void UPuzzlePlatformGameInstance::Init()
+void UMultiMenuGameInstance::Init()
 {
 	IOnlineSubsystem* SubSystem = IOnlineSubsystem::Get();
 	if (SubSystem != nullptr)
@@ -42,10 +42,10 @@ void UPuzzlePlatformGameInstance::Init()
 		SessionInterface = SubSystem->GetSessionInterface();
 		if (SessionInterface.IsValid())
 		{
-			SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformGameInstance::OnCreateSessionComplete);
-			SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformGameInstance::OnDestroySessionComplete);
-			SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(this, &UPuzzlePlatformGameInstance::OnFindSessionComplete);
-			SessionInterface->OnJoinSessionCompleteDelegates.AddUObject(this, &UPuzzlePlatformGameInstance::OnJoinSessionComplete);
+			SessionInterface->OnCreateSessionCompleteDelegates.AddUObject(this, &UMultiMenuGameInstance::OnCreateSessionComplete);
+			SessionInterface->OnDestroySessionCompleteDelegates.AddUObject(this, &UMultiMenuGameInstance::OnDestroySessionComplete);
+			SessionInterface->OnFindSessionsCompleteDelegates.AddUObject(this, &UMultiMenuGameInstance::OnFindSessionComplete);
+			SessionInterface->OnJoinSessionCompleteDelegates.AddUObject(this, &UMultiMenuGameInstance::OnJoinSessionComplete);
 		}
 	}
 	else
@@ -55,7 +55,7 @@ void UPuzzlePlatformGameInstance::Init()
 }
 
 //** Find all online sessions **//
-void UPuzzlePlatformGameInstance::FindSessions()
+void UMultiMenuGameInstance::FindSessions()
 {
 	SessionSearch = MakeShareable(new FOnlineSessionSearch());
 	if (SessionSearch.IsValid())
@@ -74,7 +74,7 @@ void UPuzzlePlatformGameInstance::FindSessions()
 }
 
 //** On finding sessions completed **//
-void UPuzzlePlatformGameInstance::OnFindSessionComplete(bool bSuccess)
+void UMultiMenuGameInstance::OnFindSessionComplete(bool bSuccess)
 {
 	if (bSuccess && SessionSearch.IsValid() && Menu != nullptr)
 	{
@@ -109,7 +109,7 @@ void UPuzzlePlatformGameInstance::OnFindSessionComplete(bool bSuccess)
 }
 
 //** Host server **//
-void UPuzzlePlatformGameInstance::Host(FString ServerNameIn)
+void UMultiMenuGameInstance::Host(FString ServerNameIn)
 {
 	DesiredServerName = ServerNameIn;
 
@@ -128,7 +128,7 @@ void UPuzzlePlatformGameInstance::Host(FString ServerNameIn)
 }
 
 //** Create online session **//
-void UPuzzlePlatformGameInstance::CreateSession()
+void UMultiMenuGameInstance::CreateSession()
 {
 	if (SessionInterface.IsValid())
 	{
@@ -154,7 +154,7 @@ void UPuzzlePlatformGameInstance::CreateSession()
 }
 
 //** On session completed, travel to main map **//
-void UPuzzlePlatformGameInstance::OnCreateSessionComplete(FName SessionName, bool bSuccess)
+void UMultiMenuGameInstance::OnCreateSessionComplete(FName SessionName, bool bSuccess)
 {
 	if (!bSuccess)
 	{	
@@ -179,7 +179,7 @@ void UPuzzlePlatformGameInstance::OnCreateSessionComplete(FName SessionName, boo
 }
 
 //** Destroy session - once completed create a new session **//
-void UPuzzlePlatformGameInstance::OnDestroySessionComplete(FName SessionName, bool bSuccess)
+void UMultiMenuGameInstance::OnDestroySessionComplete(FName SessionName, bool bSuccess)
 {
 	if(!bSuccess)
 	{
@@ -193,7 +193,7 @@ void UPuzzlePlatformGameInstance::OnDestroySessionComplete(FName SessionName, bo
 }
 
 //** Join server **//
-void UPuzzlePlatformGameInstance::Join(uint32 IndexIn)
+void UMultiMenuGameInstance::Join(uint32 IndexIn)
 {
 	if (!SessionInterface.IsValid()) return;
 	if (!SessionSearch.IsValid()) return;
@@ -208,7 +208,7 @@ void UPuzzlePlatformGameInstance::Join(uint32 IndexIn)
 }
 
 //** Do the client travel on successful connection **//
-void UPuzzlePlatformGameInstance::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
+void UMultiMenuGameInstance::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
 {
 	if (!SessionInterface.IsValid()) return;
 
@@ -238,7 +238,7 @@ void UPuzzlePlatformGameInstance::OnJoinSessionComplete(FName SessionName, EOnJo
 }
 
 // ** Start session, called from game mode **//
-void UPuzzlePlatformGameInstance::StartSession()
+void UMultiMenuGameInstance::StartSession()
 {
 	if(SessionInterface.IsValid())
 	{
@@ -247,7 +247,7 @@ void UPuzzlePlatformGameInstance::StartSession()
 }
 
 //** Add Menu Widget to viewport **//
-void UPuzzlePlatformGameInstance::LoadMenu()
+void UMultiMenuGameInstance::LoadMenu()
 {
 	if(!ensure(MenuClass != nullptr)) return;
 	Menu = CreateWidget<UMainMenu>(this, MenuClass);
@@ -258,7 +258,7 @@ void UPuzzlePlatformGameInstance::LoadMenu()
 }
 
 //** Add In Game Menu Widget to viewport **//
-void UPuzzlePlatformGameInstance::LoadInGameMenu()
+void UMultiMenuGameInstance::LoadInGameMenu()
 {
 	if (!ensure(InGameMenuClass != nullptr)) return;
 	InGameMenu = CreateWidget<UMenuWidget>(this, InGameMenuClass);
@@ -269,7 +269,7 @@ void UPuzzlePlatformGameInstance::LoadInGameMenu()
 }
 
 //** When loading main menu after exiting in game menu
-void UPuzzlePlatformGameInstance::LoadMainMenu()
+void UMultiMenuGameInstance::LoadMainMenu()
 {
 	UWorld* World = GetWorld();
 	if (!ensure(World != nullptr)) return;
@@ -281,7 +281,7 @@ void UPuzzlePlatformGameInstance::LoadMainMenu()
 }
 
 //** Debugging message to log to screen **//
-void UPuzzlePlatformGameInstance::DebugMessage(const FString& Message)
+void UMultiMenuGameInstance::DebugMessage(const FString& Message)
 {
 	UEngine* Engine = GetEngine();
 	if (!ensure(Engine != nullptr)) return;
