@@ -25,6 +25,8 @@ public:
 	//** Sets menu interface for widget **//
 	void SetMenuInterface(IMenuInterface* MenuInterfaceIn);
 
+
+
 protected:
 	IMenuInterface* MenuInterface;
 	
